@@ -39,6 +39,18 @@ function AddressBook() {
   }
 
 let addressBook = new AddressBook();
+$(document).ready(function() {
+  $('form#new-contact').submit(function(event) {
+    event.preventDefault();
+    const inputtedFirstName = $('input#new-first-name').val();
+    const inputtedLastName = $('input#mew-last-name').val();
+    const inputtedPhoneNumber = $('input#new-phone-number').val();
+    let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
+    addressBook.addContact(newContact);
+    console.log(addressBook.contacts);
+  });
+});
+
 let contact = new Contact("Jim", "Davis", "555-555-5555");
 let contact2 = new Contact("Garfield", "Cat", "555-555-5555");
 addressBook.addContact(contact);
