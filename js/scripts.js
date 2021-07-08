@@ -39,22 +39,33 @@ function AddressBook() {
   }
 
 let addressBook = new AddressBook();
+
+function displayContactDetails(addressBookToDisplay) {
+  let contactList = $('ul#contacts');
+  let htmlForContactInfo = "";
+  Object.keys(addressBookToDisplay.contacts).forEach(function(key) {
+    const contact = addressBookToDisplay.findContact(key);
+    htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>";  
+  });
+  contactList.html(htmlForContactInfo)
+};
+
+function attachContactListeners() {
+  $("ul#contacts").on("click", "li", function() {
+    console.log("The id of this <li> is" + this.id + ".")
+  });
+};
+
 $(document).ready(function() {
+  attachContactListeners();
   $('form#new-contact').submit(function(event) {
     event.preventDefault();
     const inputtedFirstName = $('input#new-first-name').val();
-    const inputtedLastName = $('input#mew-last-name').val();
+    const inputtedLastName = $('input#new-last-name').val();
     const inputtedPhoneNumber = $('input#new-phone-number').val();
     let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
     addressBook.addContact(newContact);
+    displayContactDetails(addressBook);
     console.log(addressBook.contacts);
   });
 });
-
-let contact = new Contact("Jim", "Davis", "555-555-5555");
-let contact2 = new Contact("Garfield", "Cat", "555-555-5555");
-addressBook.addContact(contact);
-addressBook.addContact(contact2);
-addressBook.deleteContact(contact);
-console.log(contact2);
-console.log(contact);
